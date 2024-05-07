@@ -12,6 +12,16 @@ import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
 import { GoogleIcon } from "../icons/GoogleIcon";
 
+function login(email, password) {
+  return fetch("http://localhost:3000/api/v1/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  }).then((response) => response.json());
+}
+
 export default function LoginForm() {
   return (
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
@@ -96,7 +106,10 @@ export default function LoginForm() {
                   email: formElements.email.value,
                   password: formElements.password.value,
                 };
-                alert(JSON.stringify(data, null, 2));
+
+                login(data.email, data.password).then((response) => {
+                  alert(JSON.stringify(response, null, 2));
+                });
               }}
             >
               <FormControl required>
